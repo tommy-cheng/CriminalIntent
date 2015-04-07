@@ -20,6 +20,11 @@ public class Crime {
         mDate = new Date();
     }
 
+    @Override
+    public String toString() {
+        return mTitle;
+    }
+
     public UUID getmId() {
         return mId;
     }

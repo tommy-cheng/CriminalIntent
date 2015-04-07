@@ -1,28 +1,11 @@
 package com.example.tommy.criminalintent;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
-
-public class CrimeActivity extends FragmentActivity {
+public class CrimeActivity extends SingleFragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crime);
-
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        android.support.v4.app.Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
-
-        if (fragment == null) {
-            fragment = new CrimeFragment();
-            fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
-        }
+    protected android.support.v4.app.Fragment createFragment() {
+        return new CrimeFragment();
     }
-
 }
