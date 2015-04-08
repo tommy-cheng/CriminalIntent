@@ -1,5 +1,6 @@
 package com.example.tommy.criminalintent;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -24,6 +25,7 @@ import java.util.zip.DataFormatException;
  */
 public class CrimeFragment extends Fragment {
     public static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.crime_id";
+    private static final String DIALOG_DATE = "date";
     private Crime mCrime;
     private EditText mTitleField;
     private Button mDateButton;
@@ -59,11 +61,16 @@ public class CrimeFragment extends Fragment {
         });
 
         mDateButton = (Button)v.findViewById(R.id.crime_date);
+        mDateButton.setText(mCrime.getmDate().toString());
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+                DatePickerFragment dialog = new DatePickerFragment();
+                dialog.show(fm, DIALOG_DATE);
+            }
+        });
 
-        DateFormat df = DateFormat.getDateTimeInstance();
-        mDateButton.setText(df.format(mCrime.getmDate()));
-//        mDateButton.setText(mCrime.getmDate().toString());
-        mDateButton.setEnabled(false);
 
         mSolvedCheckBox = (CheckBox)v.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setChecked(mCrime.ismSolved());
