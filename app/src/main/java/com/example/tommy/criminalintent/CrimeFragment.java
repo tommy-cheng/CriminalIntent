@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,7 @@ import java.util.zip.DataFormatException;
  * Created by tommy on 3/30/2015.
  */
 public class CrimeFragment extends Fragment {
+    private static final String TAG = "CrimeFragment";
     public static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.crime_id";
     private static final String DIALOG_DATE = "date";
     private static final int REQUEST_DATE = 0;
@@ -63,6 +65,7 @@ public class CrimeFragment extends Fragment {
     @Override
     public  void onPause() {
         super.onPause();
+        Log.d(TAG,TAG + "onPause");
         CrimeLab.get(getActivity()).saveCrimes();
     }
 
