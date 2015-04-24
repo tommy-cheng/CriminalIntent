@@ -14,10 +14,12 @@ import java.util.UUID;
 /**
  * Created by tommy on 4/7/2015.
  */
-public class CrimePagerActivity extends FragmentActivity {
+public class CrimePagerActivity extends FragmentActivity implements CrimeFragment.Callbacks {
     private static final String TAG = "CrimePager";
     private ViewPager mViewPager;
     private ArrayList<Crime> mCrimes;
+
+    public void onCrimeUpdated(Crime crime) {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

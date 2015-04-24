@@ -1,6 +1,7 @@
 package com.example.tommy.criminalintent;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.support.v4.app.ListFragment;
 import android.content.Intent;
 import android.os.Build;
@@ -32,6 +33,27 @@ public class CrimeListFragment extends ListFragment {
     private static final String TAG = "CrimeListFragment";
     private boolean mSubtitleVisible;
     private ArrayList<Crime> mCrimes;
+    private Callbacks mCallbacks;
+
+    /**
+         *
+         * @Require interface for hosting activities.
+       */
+    public interface Callbacks {
+        void onCrimeSelected(Crime crime);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks)activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -133,9 +155,8 @@ public class CrimeListFragment extends ListFragment {
             case R.id.menu_item_new_crime:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
-                Intent i = new Intent(getActivity(), CrimePagerActivity.class);
-                i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getmId());
-                startActivityForResult(i, 0);
+                ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
+                mCallbacks.onCrimeSelected(crime);
                 return true;
             case R.id.menu_item_show_subtitle:
                 if (getActivity().getActionBar().getSubtitle() == null) {
@@ -181,9 +202,7 @@ public class CrimeListFragment extends ListFragment {
         Log.d(TAG, c.getmTitle()+" was clicked");
 
         // Start CrimePagerActivity with this crime
-        Intent i = new Intent(getActivity(), CrimePagerActivity.class);
-        i.putExtra(CrimeFragment.EXTRA_CRIME_ID, c.getmId());
-        startActivity(i);
+       mCallbacks.onCrimeSelected(c);
     }
 
     private class CrimeAdapter extends ArrayAdapter<Crime> {
@@ -209,5 +228,9 @@ public class CrimeListFragment extends ListFragment {
             solvedCheckBox.setChecked(c.ismSolved());
             return convertView;
         }
+    }
+
+    public void updateUI() {
+        ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
     }
 }
