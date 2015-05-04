@@ -17,6 +17,7 @@ public class CrimeActivity extends Activity {
         setContentView(R.layout.activity_crime);
 
         FragmentManager fm = getFragmentManager();
+
         Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
 
         if (fragment == null) {
